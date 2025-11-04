@@ -8,6 +8,14 @@ public class Book
 {
   public String pigLatin(String word)
   {
+    StringBuffer s = new StringBuffer();
+    
+    char firstChar = word.charAt(0);
+    s.append(word.substring(1,word.length()));
+    s.append("-"+ firstChar);
+    s.append("ay");
+
+    return s.toString();
 
   }
   
