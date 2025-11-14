@@ -1,11 +1,34 @@
-//A few assumptions.......
-
-//Words will be separated by spaces. 
-//There can be punctuation in a word, we will only add/keep punctuation at the end of a string if it is at the end of a string.
-//    for examples: Hello.==> Ellohay.    Good-bye! ==> Ood-byegay!    so... ==> osay...
+import java.io.IOException;
+import java.net.URL;
+import java.util.Scanner;
 
 public class Book
 {
+  private String book;
+
+  public Book(String url){
+    readBook (url);
+  }
+
+  private void readBook(String link){
+    try{
+      URL url = new URL(link);
+      Scanner s = new Scanner(url.openStream());
+
+      while(s.hasNext()){
+        String text = s.nextLine();
+        System.out.println(text);
+        book += text;
+      }
+    }
+
+    catch(IOException ex){
+      ex.printStackTrace();
+    }
+
+  }
+
+
   public String pigLatin(String word)
   {
     String newWord = "";
@@ -124,13 +147,18 @@ public class Book
 
     spaceIndex = sent.indexOf (" ");
 
+    /*
+     * Taking the first word using substring and the location of the first space then translate the word
+     * then find the location of the next space and translate the word between the first space and the second space, and keep doing that until you reach the end of the sentence
+     */
+
     while(spaceIndex >= 0){
       word = sent.substring(0, spaceIndex);
-      System.out.println("this is the word: " + word);
+      //System.out.println("this is the word: " + word);
       translatedWord = translateWord(word);
-      System.out.println("This is the translated word: "+ translatedWord);
+      //System.out.println("This is the translated word: "+ translatedWord);
       sent = sent.substring(spaceIndex+1, sent.length());
-      System.out.println("This is the sentence: "+ sent);
+      //System.out.println("This is the sentence: "+ sent);
       spaceIndex = sent.indexOf(" ");
       retSentence = retSentence + " " + translatedWord;
 
@@ -143,11 +171,6 @@ public class Book
     //if(sent.length(1>0)){
     //translate(sent);
     //}
-    
-    
-   
-    
-
 
     return retSentence;
   }
