@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Book
 {
   private String book;
-
+    int translatedWordCounter = 0;
   public Book(String url){
     readBook (url);
   }
@@ -17,7 +17,13 @@ public class Book
 
       while(s.hasNext()){
         String text = s.nextLine();
-        System.out.println(text);
+        //System.out.println(text);
+        if(text.contains("*** END OF THE PROJECT GUTENBERG")){
+          System.out.println("Amount of translated words in the book: " + translatedWordCounter);
+          break;
+        }
+        String translatedSentence = this.translateSentence(text);
+        System.out.println(translatedSentence);
         book += text;
       }
     }
@@ -31,7 +37,7 @@ public class Book
 
   public String pigLatin(String word)
   {
-    String newWord = "";
+    //String newWord = "";
     String digits = "0123456789";
     String vowels = "aeiouyAEIOUY";
     String punctuation = ".,;!?'";
@@ -41,7 +47,7 @@ public class Book
     int punctuationIndex = word.length();
     StringBuffer sb = new StringBuffer();
 
-   // System.out.println("the word is: "+ word);
+   //System.out.println("the word is: "+ word);
 
     if(word.isEmpty()){
       return word;
@@ -50,11 +56,6 @@ public class Book
       return word;
     }
 
-    if(vowels.indexOf(word.substring(0,1))>=0) {
-      return word + "yay";
-    }else if (word.length() == 1){
-      return word + "ay";
-    }
 
     //checking if the word is capitalized or not
     if (Character.isUpperCase(word.charAt(0)) == true){
@@ -78,28 +79,35 @@ public class Book
         isPunctuation = true;
         punctuationIndex = i;
 
-       // System.out.println("there is punctuation");
+        //System.out.println("there is punctuation");
       }else{
         break;
       }
 
-     // System.out.println(word.charAt(i));
+      //System.out.println(word.charAt(i));
 
     }
+    if (word.length() == 1){
+      return word + "ay";
+    }
+    if(vowels.indexOf(word.substring(0,1))>=0) {
+      return word.substring(0, punctuationIndex) + "yay" + word.substring(punctuationIndex, word.length());
+    }
+
 
     //System.out.println("Location of punctuation: " + punctuationIndex);
 
-    for(int i = 0; i <= word.length(); i++){
+    for(int i = 0; i < word.length(); i++){
       if(vowels.indexOf(word.substring(i, i+1))>=0){
         String left = word.substring(0, i);
         String right = word.substring(i, punctuationIndex);
-        System.out.println( "this is left: " + left + " this is right: " + right);  
+        //System.out.println( "this is left: " + left + " this is right: " + right);  
 
         if (isPunctuation == true){
           if(isCapital == true){
           return right.substring(0, 1).toUpperCase()
                             +right.substring(1, right.length())
-                            + left.substring(0, 1)
+                            + left.substring(0, 1).toLowerCase()
                             + left.substring(1, left.length())
                             + "ay"
                             + word.substring(punctuationIndex, word.length());
@@ -118,26 +126,37 @@ public class Book
                             + "ay";
           } else {
             return right + left + "ay";
-          }
-          
+          }    
         }
         
       }
     }
-    
-    return newWord;
+    return word.substring(0, punctuationIndex) + "ay" + word.substring(punctuationIndex, word.length());
+    /* 
+        if (isPunctuation == true){
+          if (isCapital == true){
+           
+          } else {
+            return 
+          }
+        } else {
+          if (isCapital == true){
+          } else{
+
+          }
+          return word + "ay";
+        }
+        */
   }
 
   public String translateWord(String word)    //to share with class
   {
     String convertedWord = pigLatin(word);
+    translatedWordCounter = translatedWordCounter + 1; 
     return convertedWord;
-
-   
   }
 
-  public String translateSentence(String sentence)
-  {
+  public String translateSentence(String sentence){
 
     int spaceIndex;
     String word; 

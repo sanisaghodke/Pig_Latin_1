@@ -1,9 +1,9 @@
 class App {
   public static void main(String[] args) {    
-    Book aBook = new Book("https://www.gutenberg.org/cache/epub/6130/pg6130.txt");
-    
-    //System.out.println(aBook.pigLatin("hello"));
-    ////System.out.println(aBook.pigLatin("1hello"));
+    Book aBook = new Book("https://www.gutenberg.org/cache/epub/271/pg271.txt");
+    //Book aBook = new Book("");
+    //System.out.println(aBook.pigLatin("WOW"));
+    //System.out.println(aBook.pigLatin("p."));
     //System.out.println(aBook.pigLatin("yellow"));
     //System.out.println(aBook.pigLatin("Hello"));
     //System.out.println(aBook.pigLatin("hello..."));
